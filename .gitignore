@@ -1,0 +1,12 @@
+venv/
+.venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+data/raw/
+data/processed/
+*.mp4
+*.mov
+*.avi
+.DS_Store
+!data/samples/*.mp4
