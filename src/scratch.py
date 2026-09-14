@@ -5,6 +5,7 @@ import cv2
 import matplotlib as plt
 from cap_from_youtube import cap_from_youtube
 import yt_dlp
+import numpy as np
 
 # Reading testing video
 cap = cv2.VideoCapture("data/raw/dan-smith.mp4")
@@ -24,7 +25,7 @@ alive = True
 
 win_name = "Video Window"
 model_path = "models/pose_landmarker_heavy.task" # Specifying mediapipe landmarker model
-#cv2.namedWindow(win_name, cv2.WINDOW_NORMAL)
+cv2.namedWindow(win_name, cv2.WINDOW_NORMAL)
 
 
 # Initializing pose_landmarker specs
@@ -71,23 +72,23 @@ with PoseLandmarker.create_from_options(options) as landmarker:
       z = right_wrist.z
       visibility = right_wrist.visibility
 
+
       # Adjust coordinates to pixel positions
       px = int(x * cap_width)
       py = int(y * cap_height)
 
       cv2.circle(result, (px, py), 10, (0, 0, 255), 5)
       
-      # print(f"Right Wrist - X: {x:.2f}, Y: {y:.2f}, Z: {z:.2f}, Visibility: {visibility:.2f}")
+      print(f"Right Wrist - X: {px:.2f}, Y: {py:.2f}, Z: {z:.2f}, Visibility: {visibility:.2f}")
 
     out.write(result)
     
-    '''
+    cv2.imshow(win_name, bgr_frame)
     key = cv2.waitKey(0)
     if key == ord("Q") or key == ord("q") or key == 27:
       alive = False
-    '''
+    
 
 out.release()
 cap.release()
 cv2.destroyAllWindows()
-  
