@@ -8,7 +8,7 @@ import yt_dlp
 import numpy as np
 
 # Reading testing video
-cap = cv2.VideoCapture("data/raw/dan-smith.mp4")
+cap = cv2.VideoCapture("data/raw/person-walking.mp4")
 
 # Gets video fps to calculate timestamps
 frame_num = 0
@@ -18,7 +18,7 @@ cap_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
 cap_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
 
 # Create output video file
-out = cv2.VideoWriter("data/processed/output.avi", cv2.VideoWriter_fourcc(*'XVID'), cap_fps, (cap_width, cap_height))
+#out = cv2.VideoWriter("data/processed/person-walking-output.avi", cv2.VideoWriter_fourcc(*'XVID'), cap_fps, (cap_width, cap_height))
  
 
 alive = True
@@ -67,28 +67,46 @@ with PoseLandmarker.create_from_options(options) as landmarker:
       right_wrist = first_person_landmarks[16]
       
       # Extract normalized coordinates
-      x = right_wrist.x
-      y = right_wrist.y
-      z = right_wrist.z
-      visibility = right_wrist.visibility
+      right_x = right_wrist.x
+      right_y = right_wrist.y
+      right_z = right_wrist.z
+      right_visibility = right_wrist.visibility
 
 
       # Adjust coordinates to pixel positions
-      px = int(x * cap_width)
-      py = int(y * cap_height)
+      right_px = int(right_x * cap_width)
+      right_py = int(right_y * cap_height)
 
-      cv2.circle(result, (px, py), 10, (0, 0, 255), 5)
+      cv2.circle(result, (right_px, right_py), 10, (0, 0, 255), 5)
       
-      print(f"Right Wrist - X: {px:.2f}, Y: {py:.2f}, Z: {z:.2f}, Visibility: {visibility:.2f}")
+      print(f"Right Wrist - X: {right_px:.2f}, Y: {right_py:.2f}, Z: {right_z:.2f}, Visibility: {right_visibility:.2f}")
 
-    out.write(result)
+      # Extract left wrist data from index 15
+      left_wrist = first_person_landmarks[23]
+      
+      # Extract normalized coordinates
+      left_x = left_wrist.x
+      left_y = left_wrist.y
+      left_z = left_wrist.z
+      left_visibility = left_wrist.visibility
+
+
+      # Adjust coordinates to pixel positions
+      left_px = int(left_x * cap_width)
+      left_py = int(left_y * cap_height)
+
+      cv2.circle(result, (left_px, left_py), 10, (0, 255, 0), 5)
+      
+      print(f"Left Wrist - X: {left_px:.2f}, Y: {left_py:.2f}, Z: {left_z:.2f}, Visibility: {left_visibility:.2f}")
+
+    #out.write(result)
     
-    cv2.imshow(win_name, bgr_frame)
+    cv2.imshow(win_name, result)
     key = cv2.waitKey(0)
     if key == ord("Q") or key == ord("q") or key == 27:
       alive = False
     
 
-out.release()
+#out.release()
 cap.release()
 cv2.destroyAllWindows()
