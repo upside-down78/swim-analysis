@@ -5,6 +5,9 @@ __pycache__/
 .ipynb_checkpoints/
 data/raw/
 data/processed/
+src/dataset_pulling.py
+src/training_image_generation.py
+training-images/
 *.mp4
 *.mov
 *.avi
