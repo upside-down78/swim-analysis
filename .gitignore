@@ -5,8 +5,8 @@ __pycache__/
 .ipynb_checkpoints/
 data/raw/
 data/processed/
-src/dataset_pulling.py
-src/training_image_generation.py
+data/yolo_dataset_v*/
+.env
 training-images/
 *.mp4
 *.mov
