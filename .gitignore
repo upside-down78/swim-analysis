@@ -7,7 +7,9 @@ data/raw/
 data/processed/
 data/yolo_dataset_v*/
 .env
-training-images/
+runs/
+training_images/
+training_models/
 *.mp4
 *.mov
 *.avi
